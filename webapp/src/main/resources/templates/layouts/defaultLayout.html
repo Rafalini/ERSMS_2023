@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html decorate="layouts/defaultLayout"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <title>ERSMS</title>
+</head>
+<body>
+<div th:replace="layouts/commonHeader :: header"></div>
+<section layout:fragment="content">
+
+</section>
+<div th:replace="layouts/commonFooter  :: footer"></div>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+<script src="/js/bootstrap.bundle.js"></script>
+</body>
+</html>
