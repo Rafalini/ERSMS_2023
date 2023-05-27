@@ -14,140 +14,6 @@
 </section>
 <div th:replace="layouts/commonFooter  :: footer"></div>
 
-<script>
-    let queuedImagesArray = [],
-        savedForm = document.querySelector("#saved-form"),
-        queuedForm = document.querySelector("#queued-form"),
-        savedDiv = document.querySelector('.saved-div'),
-        queuedDiv = document.querySelector('.queued-div'),
-        inputDiv = document.querySelector('.input-div'),
-        input = document.querySelector('.input-div input'),
-        serverMessage = document.querySelector('.server-message'),
-        savedImages = JSON.parse('<%-JSON.stringify(images)%>'),
-        deleteImages = [];
-
-    // SAVED IMAGES
-    if(savedImages) displaySavedImages()
-
-    function displaySavedImages(){
-        let images = "";
-        savedImages.forEach((image, index) => {
-            images += `<div class="image">
-                      <img src="http://localhost:3000/uploads/${image}" alt="image">
-                      <span onclick="deleteSavedImage(${index})">&times;</span>
-                    </div>`;
-        })
-        savedDiv.innerHTML = images;
-    }
-
-    function deleteSavedImage(index) {
-        deleteImages.push(savedImages[index])
-        savedImages.splice(index, 1);
-        displaySavedImages();
-    }
-
-    savedForm.addEventListener("submit", (e) => {
-        e.preventDefault()
-        deleteImagesFromServer()
-    });
-
-    function deleteImagesFromServer() {
-
-        fetch("delete", {
-            method: "PUT",
-            headers: {
-                "Accept": "application/json, text/plain, */*",
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({deleteImages})
-        })
-
-            .then(response => {
-                if (response.status !== 200) throw Error(response.statusText)
-                deleteImages = []
-                serverMessage.innerHTML = response.statusText
-                serverMessage.style.cssText = "background-color: #d4edda; color:#1b5e20"
-            })
-
-            .catch(error => {
-                serverMessage.innerHTML = error
-                serverMessage.style.cssText = "background-color: #f8d7da; color:#b71c1c"
-            });
-
-    }
-
-    // QUEUED IMAGES
-
-    function displayQueuedImages() {
-        let images = "";
-        queuedImagesArray.forEach((image, index) => {
-            images += `<div class="image">
-                    <img src="${URL.createObjectURL(image)}" alt="image">
-                    <span onclick="deleteQueuedImage(${index})">&times;</span>
-                  </div>`;
-        })
-        queuedDiv.innerHTML = images;
-    }
-
-    function deleteQueuedImage(index) {
-        queuedImagesArray.splice(index, 1);
-        displayQueuedImages();
-    }
-
-    input.addEventListener("change", () => {
-        console.log("XDD")
-        // const files = input.files;
-        // for (let i = 0; i < files.length; i++) {
-        //     queuedImagesArray.push(files[i])
-        // }
-        // queuedForm.reset();
-        // displayQueuedImages()
-    })
-
-    inputDiv.addEventListener("drop", (e) => {
-        console.log("XDD")
-
-        e.preventDefault()
-        const files = e.dataTransfer.files
-        for (let i = 0; i < files.length; i++) {
-            if (!files[i].type.match("image")) continue; // only photos
-
-            if (queuedImagesArray.every(image => image.name !== files[i].name))
-                queuedImagesArray.push(files[i])
-        }
-        displayQueuedImages()
-    })
-
-    queuedForm.addEventListener("submit", (e) => {
-        e.preventDefault()
-        sendQueuedImagesToServer()
-    });
-
-    function sendQueuedImagesToServer() {
-        const formData = new FormData(queuedForm);
-
-        queuedImagesArray.forEach((image, index) => {
-            formData.append(`file[${index}]`, image)
-        })
-
-        fetch("upload", {
-            method: "POST",
-            body: formData
-        })
-
-            .then(response => {
-                if(response.status !== 200) throw Error(response.statusText)
-                location.reload()
-            })
-
-            .catch( error => {
-                serverMessage.innerHTML = error
-                serverMessage.style.cssText = "background-color: #f8d7da; color:#b71c1c"
-            });
-
-    }
-</script>
-
 <script
         src="https://code.jquery.com/jquery-3.3.1.js"
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -243,8 +109,8 @@
         gap: 15px;
         position: relative;
         border-radius: 5px;
-        border: 2px dotted black;
         background-color: white;
+        border: 1px dotted black;
     }
 
     .saved-div .image,
