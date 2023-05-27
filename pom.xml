@@ -21,6 +21,8 @@
     <module>fraud</module>
     <module>webapp</module>
     <module>authorization</module>
+      <module>kafka-example</module>
+    <module>kafka-example</module>
   </modules>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
