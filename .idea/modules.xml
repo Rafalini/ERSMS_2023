@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/authorization/authentication.iml" filepath="$PROJECT_DIR$/authorization/authentication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/customer/customer.iml" filepath="$PROJECT_DIR$/customer/customer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ersms.iml" filepath="$PROJECT_DIR$/ersms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fraud/fraud.iml" filepath="$PROJECT_DIR$/fraud/fraud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kafka-example/kafka-example.iml" filepath="$PROJECT_DIR$/kafka-example/kafka-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webapp/webapp.iml" filepath="$PROJECT_DIR$/webapp/webapp.iml" />
+    </modules>
+  </component>
+</project>
