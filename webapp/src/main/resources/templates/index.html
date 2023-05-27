@@ -1,10 +1,41 @@
 <!DOCTYPE html>
 <html layout:decorate="layouts/defaultLayout"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"><body>
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
 
 <div class="container my-5" layout:fragment="content">
-    <h1>Siemanko</h1>
+    <main class="app">
+
+        <div class="header">
+            <h2>Upload Images</h2>
+            <div class="server-message"></div>
+        </div>
+
+        <div class="input-div">
+            <p>Drag & drop photos here or <span class="browse">Browse</span></p>
+            <input type="file" class="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg"/>
+        </div>
+
+        <form id="saved-form">
+            <div class="header">
+                <h3>Saved in Server</h3>
+                <button type="submit">Delete</button>
+            </div>
+            <div class="saved-div"></div>
+        </form>
+
+        <form id="queued-form">
+            <div class="header">
+                <h3>Queued in Frontend</h3>
+                <button type="submit">Upload</button>
+            </div>
+            <div class="queued-div"></div>
+        </form>
+
+    </main>
 </div>
 </body>
 </html>
