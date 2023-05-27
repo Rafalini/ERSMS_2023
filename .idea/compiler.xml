@@ -11,6 +11,7 @@
         <module name="authorization" />
         <module name="fraud" />
         <module name="customer" />
+        <module name="authentication" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -20,6 +21,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="authentication" options="-parameters" />
       <module name="authorization" options="-parameters" />
       <module name="customer" options="-parameters" />
       <module name="fraud" options="-parameters" />
