@@ -17,12 +17,8 @@
   <name>ersms</name>
   <url>https://www.ersms.com</url>
   <modules>
-    <module>customer</module>
-    <module>fraud</module>
     <module>webapp</module>
     <module>authentication</module>
-      <module>kafka-example</module>
-    <module>kafka-example</module>
   </modules>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
