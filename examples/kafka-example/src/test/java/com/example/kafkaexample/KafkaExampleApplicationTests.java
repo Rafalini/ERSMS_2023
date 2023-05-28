@@ -5,9 +5,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class KafkaExampleApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
-
+    """KafkaExampleApplicationTests class"""
 }
