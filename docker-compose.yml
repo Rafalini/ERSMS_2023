@@ -28,8 +28,11 @@ services:
       - postgres
     restart: unless-stopped
   webapp:
+    container_name: webapp
+    build:
+      context: webapp
+      dockerfile: Dockerfile
     image: webapp
-    build: webapp
     ports:
       - "8081:8081"
     restart: unless-stopped
@@ -41,8 +44,11 @@ services:
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
   authentication:
-    image: authentication
-    build: authentication
+    container_name: authentication
+    build:
+      context: authentication
+      dockerfile: Dockerfile
+    image: authentication:latest
     ports:
       - "8080:8080"
     restart: unless-stopped
