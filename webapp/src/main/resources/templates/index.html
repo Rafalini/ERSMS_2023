@@ -1,23 +1,63 @@
 <!DOCTYPE html>
-
-
-<html layout:decorate="layouts/defaultLayout"
+<html lang="en"
+      layout:decorate="layouts/defaultLayout"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Main Wall</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #header {
+            background-color: #3b5998;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #main-wall {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px;
+        }
+
+        .photo {
+            width: 1200px;
+            margin: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .photo:hover {
+            transform: scale(1.05);
+        }
+
+        .photo img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
 
 <body>
-
-
-<div class="container my-5" layout:fragment="content">
-    <body>
-    <h1>All Photos</h1>
-        <div th:each="url : ${imageUrls}">
-            <img th:src="@{${url}}" alt="Image" class="img-fluid"/>
-        </div>
-    </body>
+<div id="header">
+    <h1>Main Wall</h1>
 </div>
 
+<div id="main-wall">
 
+    <div class="container my-5" layout:fragment="content">
+        <div class="photo" th:each="url : ${imageUrls}">
+            <img alt="Image" class="img-fluid" th:src="@{${url}}"/>
+        </div>
+    </div>
 
+</div>
 </body>
 </html>
