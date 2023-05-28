@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <packaging>pom</packaging>
 
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -10,16 +11,17 @@
     <version>3.0.5</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
+
   <groupId>com.ersms.app</groupId>
   <artifactId>ersms</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <version>1.0</version>
   <name>ersms</name>
   <url>https://www.ersms.com</url>
   <modules>
     <module>webapp</module>
     <module>authentication</module>
   </modules>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>19</maven.compiler.source>
@@ -64,4 +66,5 @@
       </plugins>
     </pluginManagement>
   </build>
+
 </project>

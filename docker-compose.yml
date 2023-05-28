@@ -27,6 +27,45 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+  webapp:
+    image: webapp
+    build: webapp
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/data/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+  authentication:
+    image: authentication
+    build: authentication
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/data/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+
+
+networks:
+  postgres:
+    driver: bridge
+  spring:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
+
+
 #  zipkin:
 #    image: openzipkin/zipkin
 #    container_name: zipkin
@@ -107,12 +146,3 @@ services:
 #      - zipkin
 #      - postgres
 #      - rabbitmq
-networks:
-  postgres:
-    driver: bridge
-  spring:
-    driver: bridge
-
-volumes:
-  postgres:
-  pgadmin:
