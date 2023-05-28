@@ -1,8 +1,8 @@
 package com.ersms.app.controller;
+
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/files")
 public class FileController {
+    private final Storage storage;
+
     @Autowired
-    private Storage storage;
-    private final String bucketName = "wiadro-na-dane"; // Replace with your bucket name
+    public FileController(Storage storage) {
+        this.storage = storage;
+    }
 
     @GetMapping("/{fileName}")
     public ResponseEntity<Resource> getFile(@PathVariable("fileName") String fileName) {
+        String bucketName = "wiadro-na-dane";
         BlobId blobId = BlobId.of(bucketName, fileName);
         Blob blob = storage.get(blobId);
 

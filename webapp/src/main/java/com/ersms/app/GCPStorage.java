@@ -1,8 +1,8 @@
 package com.ersms.app;
 
-import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +16,13 @@ import java.nio.file.Paths;
 @RestController
 @RequestMapping("/gcp")
 public class GCPStorage {
+    private final Storage storage;
+
     @Autowired
-    private Storage storage;
+    public GCPStorage(Storage storage) {
+        this.storage = storage;
+    }
+
     @GetMapping("/send-data")
     public String sendData() throws IOException {
         BlobId id = BlobId.of("wiadro-na-dane", "santa.jpg");
