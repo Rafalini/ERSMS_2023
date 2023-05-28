@@ -1,16 +1,16 @@
 package com.ersms.app.controller;
 
+import com.ersms.app.service.StorageService;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.model.IModel;
 
 import java.io.IOException;
 
@@ -18,10 +18,23 @@ import java.io.IOException;
 public class IndexController {
     @Autowired
     private Storage storage;
+    @Autowired
+    private StorageService storageService;
+
+    @GetMapping(value = "/login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping(value = "/index")
     public String index(Model model) {
-        model.addAttribute("attribute", "value");
+        model.addAttribute("imageUrls", storageService.listAllImages());
         return "index";
+    }
+
+    @GetMapping(value = "/upload")
+    public String upload() {
+        return "upload";
     }
 
     @PostMapping(value = "/upload")
@@ -37,7 +50,6 @@ public class IndexController {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the error
         }
         return "redirect:/index";
     }
