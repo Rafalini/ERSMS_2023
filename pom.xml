@@ -20,7 +20,7 @@
     <module>customer</module>
     <module>fraud</module>
     <module>webapp</module>
-    <module>authorization</module>
+    <module>authentication</module>
       <module>kafka-example</module>
     <module>kafka-example</module>
   </modules>

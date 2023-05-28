@@ -1,1 +1,14 @@
 idea/
+/authorization/target/
+/customer/target/
+/fraud/target/
+
+/authorization/.idea/
+/customer/.idea/
+/fraud/.idea/
+/kafka-example/.idea/
+/webapp/.idea/
+
+.vscode/settings.json
+.DS_Store
+.idea/misc.xml
