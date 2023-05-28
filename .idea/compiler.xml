@@ -11,6 +11,7 @@
         <module name="authentication" />
         <module name="fraud" />
         <module name="customer" />
+        <module name="kafka-example" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -23,6 +24,7 @@
       <module name="authentication" options="-parameters" />
       <module name="customer" options="-parameters" />
       <module name="fraud" options="-parameters" />
+      <module name="kafka-example" options="-parameters" />
       <module name="webapp" options="-parameters" />
     </option>
   </component>
