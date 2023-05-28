@@ -26,7 +26,7 @@ public class IndexController {
         return "login";
     }
 
-    @GetMapping(value = "/index")
+    @GetMapping(value = {"/","/index"})
     public String index(Model model) {
         model.addAttribute("imageUrls", storageService.listAllImages());
         return "index";
