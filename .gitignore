@@ -1,4 +1,4 @@
-idea/
+.idea/
 /authorization/target/
 /customer/target/
 /fraud/target/
@@ -12,3 +12,4 @@ idea/
 .vscode/settings.json
 .DS_Store
 .idea/misc.xml
+ersms.iml
