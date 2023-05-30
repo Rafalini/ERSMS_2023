@@ -5,12 +5,14 @@ import com.ersms.app.domain.ImageTagEntity;
 import com.ersms.app.repository.ImageRepository;
 import com.ersms.app.repository.ImageTagRepository;
 import com.google.cloud.vision.v1.*;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@EnableJpaRepositories("com.ersms.app.repository")
 public class ImageService {
 
     private final ImageRepository imageRepository;
