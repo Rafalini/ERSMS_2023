@@ -59,8 +59,15 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-
-
+  image-analyzer:
+    container_name: image-analyzer
+    build:
+      context: image-analyzer
+      dockerfile: Dockerfile
+    image: image-analyzer:latest
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
 networks:
   postgres:
     driver: bridge
