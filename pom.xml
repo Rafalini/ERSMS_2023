@@ -20,6 +20,7 @@
   <modules>
     <module>webapp</module>
     <module>authentication</module>
+    <module>image-analyzer</module>
   </modules>
 
   <properties>
