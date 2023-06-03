@@ -47,4 +47,16 @@ public class ImageController {
         imageService.deleteImage(imageUrl);
     }
 
+    //Update an image
+    @PutMapping("/{imageUrl}")
+    public void updateImage(@PathVariable("imageUrl") String imageUrl, @RequestBody ImageRequest request) {
+        imageService.updateImage(imageUrl, request);
+    }
+
+    //Update image metadata
+    @PutMapping("/{imageUrl}/metadata")
+    public void updateImage(@PathVariable("imageUrl") String imageUrl, @RequestBody MetadataRequest request) {
+        imageService.updateImageMetadata(imageUrl, request);
+    }
+
 }
