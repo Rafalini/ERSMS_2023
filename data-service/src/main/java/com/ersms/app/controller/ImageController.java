@@ -41,4 +41,10 @@ public class ImageController {
         imageService.createMetadata(imageUrl, request);
     }
 
+    //Delete an image and its metadata
+    @DeleteMapping("/{imageUrl}")
+    public void deleteImage(@PathVariable String imageUrl) {
+        imageService.deleteImage(imageUrl);
+    }
+
 }

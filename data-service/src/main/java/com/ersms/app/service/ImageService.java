@@ -67,4 +67,14 @@ public class ImageService {
 
         imageMetadataRepository.save(imageMetadata);
     }
+
+    public void deleteImage(String imageUrl) {
+        var image = imageRepository.findByUrl(imageUrl)
+                .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image at given address cannot be found", HttpStatus.NOT_FOUND));
+        var imageMetadata = imageMetadataRepository.findByImage(image);
+        imageMetadata.ifPresent(imageMetadataRepository::delete);
+
+        imageRepository.delete(image);
+    }
+
 }
