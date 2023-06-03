@@ -21,7 +21,7 @@ public class ImageAnalysisResultsConsumer {
         this.imageRepository = imageRepository;
         this.imageTagRepository = imageTagRepository;
     }
-
+/*
     @KafkaListener(topics = "image-analysis-results", groupId = "data-service-group")
     public void consumeImageAnalysisResults(String imageUrl, String tagsString) {
 
@@ -43,4 +43,5 @@ public class ImageAnalysisResultsConsumer {
             image.getTags().add(imageTagEntity);
         }
     }
+ */
 }
