@@ -3,11 +3,12 @@ services:
     container_name: postgres
     image: postgres
     environment:
+      POSTGRES_DB: mpio
       POSTGRES_USER: mpio
       POSTGRES_PASSWORD: password
-      PGDATA: /data/postgres
+      PGDATA: /data/mpio
     volumes:
-      - postgres:/data/postgres
+      - postgres:/data/mpio
     ports:
       - "5432:5432"
     networks:
@@ -36,13 +37,6 @@ services:
     ports:
       - "8081:8081"
     restart: unless-stopped
-    depends_on:
-      - postgres
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/data/postgres
-      - SPRING_DATASOURCE_USERNAME=mpio
-      - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
   authentication:
     container_name: authentication
     build:
@@ -52,29 +46,26 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+  data-service:
+    container_name: data-service
+    build:
+      context: data-service
+      dockerfile: Dockerfile
+    image: data-service:latest
+    ports:
+      - "8083:8083"
+    restart: unless-stopped
     depends_on:
       - postgres
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/data/postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/mpio
       - SPRING_DATASOURCE_USERNAME=mpio
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-#  data-service:
-#    container_name: data-service
-#    build:
-#      context: data-service
-#      dockerfile: Dockerfile
-#    image: data-service:latest
-#    ports:
-#      - "8083:8083"
-#    restart: unless-stopped
-#    depends_on:
-#      - postgres
-#    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/mpio
-#      - SPRING_DATASOURCE_USERNAME=mpio
-#      - SPRING_DATASOURCE_PASSWORD=password
-#      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+    networks:
+      - postgres
+
 #  image-analyzer:
 #    container_name: image-analyzer
 #    build:
