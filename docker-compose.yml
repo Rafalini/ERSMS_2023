@@ -40,7 +40,7 @@ services:
       - postgres
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/data/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_USERNAME=mpio
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
   authentication:
@@ -56,18 +56,34 @@ services:
       - postgres
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/data/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_USERNAME=mpio
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-  image-analyzer:
-    container_name: image-analyzer
-    build:
-      context: image-analyzer
-      dockerfile: Dockerfile
-    image: image-analyzer:latest
-    ports:
-      - "8082:8082"
-    restart: unless-stopped
+#  data-service:
+#    container_name: data-service
+#    build:
+#      context: data-service
+#      dockerfile: Dockerfile
+#    image: data-service:latest
+#    ports:
+#      - "8083:8083"
+#    restart: unless-stopped
+#    depends_on:
+#      - postgres
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/mpio
+#      - SPRING_DATASOURCE_USERNAME=mpio
+#      - SPRING_DATASOURCE_PASSWORD=password
+#      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+#  image-analyzer:
+#    container_name: image-analyzer
+#    build:
+#      context: image-analyzer
+#      dockerfile: Dockerfile
+#    image: image-analyzer:latest
+#    ports:
+#      - "8082:8082"
+#    restart: unless-stopped
 networks:
   postgres:
     driver: bridge
