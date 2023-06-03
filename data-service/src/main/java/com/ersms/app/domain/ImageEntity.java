@@ -1,5 +1,6 @@
 package com.ersms.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +28,7 @@ public class ImageEntity {
 
     private String description;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "metadata_id")
     private ImageMetadataEntity metadata;
 
@@ -36,5 +37,10 @@ public class ImageEntity {
             inverseJoinColumns = {@JoinColumn(name = "image_tag_id")},
             joinColumns = {@JoinColumn(name = "image_id")})
     private List<ImageTagEntity> tags;
+
+    @JsonManagedReference
+    public ImageMetadataEntity getMetadata() {
+        return metadata;
+    }
 }
 
