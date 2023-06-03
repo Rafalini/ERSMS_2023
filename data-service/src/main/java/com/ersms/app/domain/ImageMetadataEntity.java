@@ -1,5 +1,6 @@
 package com.ersms.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +37,14 @@ public class ImageMetadataEntity {
 
     private String location;
 
-    private LocalDateTime dateTimeEnd;
+    private LocalDateTime dateTime;
+
+    @OneToOne(mappedBy = "metadata")
+    private ImageEntity image;
+
+    @JsonBackReference
+    public ImageEntity getImage(){
+        return image;
+    }
 }
 

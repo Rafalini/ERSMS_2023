@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ImageAnalysisResultsConsumer {
@@ -20,11 +21,12 @@ public class ImageAnalysisResultsConsumer {
         this.imageRepository = imageRepository;
         this.imageTagRepository = imageTagRepository;
     }
-
+/*
     @KafkaListener(topics = "image-analysis-results", groupId = "data-service-group")
     public void consumeImageAnalysisResults(String imageUrl, String tagsString) {
 
-        ImageEntity imageEntity = imageRepository.findByUrl(imageUrl);
+        var image = imageRepository.findByUrl(imageUrl)
+                .orElseThrow(() -> new RuntimeException("Image at given address cannot be found"));
 
         List<String> imageTags = new ArrayList<>(Arrays.asList(tagsString.split(", ")));
 
@@ -38,7 +40,8 @@ public class ImageAnalysisResultsConsumer {
             }
 
             // Associate the tag with the image
-            imageEntity.getTags().add(imageTagEntity);
+            image.getTags().add(imageTagEntity);
         }
     }
+ */
 }
