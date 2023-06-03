@@ -1,5 +1,7 @@
 package com.ersms.app.controller;
 
+import com.ersms.app.model.request.ImageRequest;
+import com.ersms.app.model.request.MetadataRequest;
 import com.ersms.app.model.response.ImageDto;
 import com.ersms.app.service.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +24,21 @@ public class ImageController {
     }
 
     //Read one image
-    @GetMapping("/{url}")
-    public ImageDto getImage(@PathVariable String url) {
-        return imageService.getImage(url);
+    @GetMapping("/{imageUrl}")
+    public ImageDto getImage(@PathVariable String imageUrl) {
+        return imageService.getImage(imageUrl);
+    }
+
+    //Create an image
+    @PostMapping
+    public void createImage(@RequestBody ImageRequest request) {
+        imageService.createImage(request);
+    }
+
+    //Create image's metadata
+    @PostMapping("/{imageUrl}")
+    public void createMetadata(@PathVariable String imageUrl, @RequestBody MetadataRequest request) {
+        imageService.createMetadata(imageUrl, request);
     }
 
 }
