@@ -4,7 +4,7 @@ import com.ersms.app.domain.ImageEntity;
 import com.ersms.app.domain.ImageMetadataEntity;
 import com.ersms.app.exception.RuntimeExceptionWithHttpStatus;
 import com.ersms.app.model.request.ImageRequest;
-import com.ersms.app.model.request.MetadataRequest;
+import com.ersms.app.model.request.ImageMetadataRequest;
 import com.ersms.app.model.response.ImageDto;
 import com.ersms.app.repository.ImageMetadataRepository;
 import com.ersms.app.repository.ImageRepository;
@@ -50,7 +50,7 @@ public class ImageService {
         imageRepository.save(image);
     }
 
-    public void createMetadata(String imageUrl, MetadataRequest request) {
+    public void createImageMetadata(String imageUrl, ImageMetadataRequest request) {
         var image = imageRepository.findByUrl(imageUrl)
                 .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image at given address cannot be found", HttpStatus.NOT_FOUND));
 
@@ -93,7 +93,7 @@ public class ImageService {
         imageRepository.save(image);
     }
 
-    public void updateImageMetadata(String imageUrl, MetadataRequest request) {
+    public void updateImageMetadata(String imageUrl, ImageMetadataRequest request) {
 
         var image = imageRepository.findByUrl(imageUrl)
                 .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image at given address cannot be found", HttpStatus.NOT_FOUND));

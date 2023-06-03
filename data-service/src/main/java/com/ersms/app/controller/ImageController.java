@@ -1,7 +1,7 @@
 package com.ersms.app.controller;
 
 import com.ersms.app.model.request.ImageRequest;
-import com.ersms.app.model.request.MetadataRequest;
+import com.ersms.app.model.request.ImageMetadataRequest;
 import com.ersms.app.model.response.ImageDto;
 import com.ersms.app.service.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +37,8 @@ public class ImageController {
 
     //Create image's metadata
     @PostMapping("/{imageUrl}")
-    public void createMetadata(@PathVariable String imageUrl, @RequestBody MetadataRequest request) {
-        imageService.createMetadata(imageUrl, request);
+    public void createImageMetadata(@PathVariable String imageUrl, @RequestBody ImageMetadataRequest request) {
+        imageService.createImageMetadata(imageUrl, request);
     }
 
     //Delete an image and its metadata
@@ -55,7 +55,7 @@ public class ImageController {
 
     //Update image metadata
     @PutMapping("/{imageUrl}/metadata")
-    public void updateImage(@PathVariable("imageUrl") String imageUrl, @RequestBody MetadataRequest request) {
+    public void updateImage(@PathVariable("imageUrl") String imageUrl, @RequestBody ImageMetadataRequest request) {
         imageService.updateImageMetadata(imageUrl, request);
     }
 

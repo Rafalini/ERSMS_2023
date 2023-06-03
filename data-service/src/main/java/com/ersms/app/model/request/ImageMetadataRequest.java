@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MetadataRequest {
+public class ImageMetadataRequest {
     private String cameraModel;
     private BigDecimal aperture;
     private Integer pixelsVertically;
