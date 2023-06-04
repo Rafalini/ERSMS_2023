@@ -52,9 +52,19 @@
 
 <div id="main-wall">
 
+
+
     <div class="container my-5" layout:fragment="content">
-        <div class="photo" th:each="url : ${imageUrls}">
-            <img alt="Image" class="img-fluid" th:src="@{${url}}"/>
+        <div class="row">
+            <div class="col-md-6 offset-md-3" th:each="photo : ${photos}">
+                <div class="card mb-4 shadow-sm">
+                    <h5 class="card-header" th:text="${photo.getName()}"></h5>
+                    <img class="card-img-top" th:src="@{${photo.getUrl()}}" alt="Image">
+                    <div class="card-body">
+                        <p class="card-text" th:text="${photo.getDescription()}"></p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
