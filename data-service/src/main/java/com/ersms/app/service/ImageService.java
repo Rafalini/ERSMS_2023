@@ -49,26 +49,14 @@ public class ImageService {
             throw new RuntimeExceptionWithHttpStatus("The image already exists in the database", HttpStatus.CONFLICT);
         }
 
-        imageUrlProducer.produceUrl(request.getUrl());
-
         var image = ImageEntity.builder()
                 .url(request.getUrl())
                 .name(request.getName())
                 .description(request.getDescription())
                 .build();
 
-        List<ImageTagEntity> tags = new ArrayList<>();
-        String[] tagNames = {"cat", "dog"};
-        for (String tagName : tagNames) {
-            ImageTagEntity tag = imageTagRepository.findByName(tagName);
-            if (tag == null) {
-                tag = ImageTagEntity.builder().name(tagName).build();
-            }
-            tags.add(tag);
-        }
-
-        image.setTags(tags);
-        imageRepository.save(image);
+        ImageEntity savedImage = imageRepository.save(image);
+        imageUrlProducer.produceImage(savedImage);
     }
 
     public void createImageMetadata(String imageUrl, ImageMetadataRequest request) {
