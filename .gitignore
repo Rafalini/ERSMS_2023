@@ -6,7 +6,7 @@
 /authorization/.idea/
 /customer/.idea/
 /fraud/.idea/
-/examples/kafka-example/.idea/
+/kafka-example/.idea/
 /webapp/.idea/
 
 .vscode/settings.json
