@@ -13,5 +13,5 @@ public class Photo {
     private MultipartFile file;
     private String url;
     private Object metadata;
-    private List<String> tags;
+    private List<Tag> tags;
 }

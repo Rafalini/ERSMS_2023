@@ -1,27 +1,19 @@
-//package com.ersms.app.kafka;
-//import com.ersms.app.domain.ImageEntity;
-//import com.ersms.app.domain.ImageTagEntity;
-//import com.ersms.app.repository.ImageRepository;
-//import com.ersms.app.repository.ImageTagRepository;
-//import org.springframework.kafka.annotation.KafkaListener;
-//import org.springframework.stereotype.Component;
-//
-//import java.util.ArrayList;
-//import java.util.Arrays;
-//import java.util.List;
-//import java.util.Optional;
-//
-//@Component
-//public class ImageAnalysisResultsConsumer {
-//
-//    private final ImageRepository imageRepository;
-//    private final ImageTagRepository imageTagRepository;
-//
-//    public ImageAnalysisResultsConsumer(ImageRepository imageRepository, ImageTagRepository imageTagRepository) {
-//        this.imageRepository = imageRepository;
-//        this.imageTagRepository = imageTagRepository;
-//    }
-//
+package com.ersms.app.kafka;
+import com.ersms.app.repository.ImageRepository;
+import com.ersms.app.repository.ImageTagRepository;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ImageAnalysisResultsListener {
+
+    private final ImageRepository imageRepository;
+    private final ImageTagRepository imageTagRepository;
+
+    public ImageAnalysisResultsListener(ImageRepository imageRepository, ImageTagRepository imageTagRepository) {
+        this.imageRepository = imageRepository;
+        this.imageTagRepository = imageTagRepository;
+    }
+
 //    @KafkaListener(topics = "image-analysis-results", groupId = "data-service-group")
 //    public void consumeImageAnalysisResults(String imageUrl, String tagsString) {
 //
@@ -43,4 +35,4 @@
 //            image.getTags().add(imageTagEntity);
 //        }
 //    }
-//}
+}
