@@ -1,5 +1,9 @@
 package com.ersms.app.service;
 
+import com.ersms.app.ImageAnalyzer;
+import com.ersms.app.Model.ImageAnalyzerResponse;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.vision.v1.*;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -8,25 +12,32 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ImageAnalysisService {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, ImageAnalyzerResponse> kafkaTemplate;
 
-    public ImageAnalysisService(KafkaTemplate<String, String> kafkaTemplate) {
+    public ImageAnalysisService(KafkaTemplate<String, ImageAnalyzerResponse> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
     public void analyzeImage(String imageUrl) {
-
         List<String> imageTags = extractTagsFromImage(imageUrl);
 
-        // Convert the tags to a string representation (comma-separated values)
-        String tagsString = String.join(", ", imageTags);
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        // Publish the analyzed tags to another Kafka topic
-        kafkaTemplate.send("image-analysis-results", tagsString);
+        try {
+            Map<String, Object> map = objectMapper.readValue(imageUrl,
+                    new TypeReference<>() {
+                    });
+            ImageAnalyzerResponse imageAnalyzerResponse = ImageAnalyzerResponse.builder().id((int)map.get("id")).tags(imageTags).build();
+            // Publish the analyzed tags to another Kafka topic
+            kafkaTemplate.send("image-analysis-results", imageAnalyzerResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private List<String> extractTagsFromImage(String imageUrl) {

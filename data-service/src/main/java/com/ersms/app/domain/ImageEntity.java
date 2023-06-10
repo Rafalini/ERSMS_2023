@@ -32,10 +32,11 @@ public class ImageEntity {
     @JoinColumn(name = "metadata_id")
     private ImageMetadataEntity metadata;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "ImageRecognition",
             inverseJoinColumns = {@JoinColumn(name = "image_tag_id")},
             joinColumns = {@JoinColumn(name = "image_id")})
+
     private List<ImageTagEntity> tags;
 
     @JsonManagedReference

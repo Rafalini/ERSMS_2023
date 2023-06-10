@@ -58,5 +58,4 @@ public class ImageController {
     public void updateImage(@PathVariable("imageUrl") String imageUrl, @RequestBody ImageMetadataRequest request) {
         imageService.updateImageMetadata(imageUrl, request);
     }
-
 }
