@@ -12,7 +12,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      - postgres-network
     restart: unless-stopped
   pgadmin:
     container_name: pgadmin
@@ -26,7 +26,7 @@ services:
     ports:
       - "5050:80"
     networks:
-      - postgres
+      - postgres-network
     restart: unless-stopped
   webapp:
     container_name: webapp
@@ -57,30 +57,58 @@ services:
     restart: unless-stopped
     depends_on:
       - postgres
+      - kafka
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/mpio
       - SPRING_DATASOURCE_USERNAME=mpio
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
     networks:
-      - postgres
+      - postgres-network
+      - kafka-network
 
-#  image-analyzer:
-#    container_name: image-analyzer
-#    build:
-#      context: image-analyzer
-#      dockerfile: Dockerfile
-#    image: image-analyzer:latest
-#    ports:
-#      - "8082:8082"
-#    restart: unless-stopped
+  image-analyzer:
+    container_name: image-analyzer
+    build:
+      context: image-analyzer
+      dockerfile: Dockerfile
+    image: image-analyzer:latest
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+    environment:
+      - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
+    networks:
+      - kafka-network
+
+  zookeeper: #potrzebne do kafki
+    image: bitnami/zookeeper:3.8.1
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - kafka-network
+
+  kafka:
+    image: bitnami/kafka:3.4
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    networks:
+      - kafka-network
 
 networks:
-  postgres:
+  postgres-network:
     driver: bridge
-  spring:
-    driver: bridge
+  kafka-network:
 
 volumes:
   postgres:
