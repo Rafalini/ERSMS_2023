@@ -1,4 +1,4 @@
-package com.ersms.app.Model;
+package com.ersms.app.model;
 
 import lombok.*;
 

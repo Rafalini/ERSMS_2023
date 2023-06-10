@@ -1,12 +1,11 @@
 package com.ersms.app.service;
 
-import com.ersms.app.ImageAnalyzer;
-import com.ersms.app.Model.ImageAnalyzerResponse;
+import com.ersms.app.model.ImageAnalyzerResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.cloud.vision.v1.*;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import com.google.cloud.vision.v1.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ public class ImageAnalysisService {
     }
 
     private List<String> extractTagsFromImage(String imageUrl) {
-        /* TODO - GOOGLE VISION
+
         List<String> tags = new ArrayList<>();
 
         // Create an Image instance from the URL
@@ -72,7 +71,6 @@ public class ImageAnalysisService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        */
         // For this example, let's assume we have a list of hardcoded tags
         return Arrays.asList("tag1", "tag2", "tag3");
     }

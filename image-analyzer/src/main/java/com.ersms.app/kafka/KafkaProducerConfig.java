@@ -1,6 +1,6 @@
 package com.ersms.app.kafka;
 
-import com.ersms.app.Model.ImageAnalyzerResponse;
+import com.ersms.app.model.ImageAnalyzerResponse;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
