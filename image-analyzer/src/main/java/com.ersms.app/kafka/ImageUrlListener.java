@@ -13,8 +13,8 @@ public class ImageUrlListener {
     }
 
     @KafkaListener(topics = "image-url", groupId = "image-analysis-group")
-    public void consumeImageUrl(String imageUrl) {
-        System.out.println("Image url: " + imageUrl);
-        imageAnalysisService.analyzeImage(imageUrl);
+    public void consumeImage(String imageInfo) {
+        System.out.println("Image info: " + imageInfo);
+        imageAnalysisService.analyzeImage(imageInfo);
     }
 }

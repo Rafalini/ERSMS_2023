@@ -1,4 +1,4 @@
-package com.ersms.app.Model;
+package com.ersms.app.model;
 
 import lombok.*;
 
@@ -10,6 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImageAnalyzerResponse {
-    private int id;
+    private Long id;
     private List<String> tags;
 }
