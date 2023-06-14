@@ -1,5 +1,6 @@
 package com.ersms.app.service;
 
+import com.ersms.app.domain.Image;
 import com.ersms.app.model.ImageAnalyzerResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,21 +23,24 @@ public class ImageAnalysisService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void analyzeImage(String imageUrl) {
-        List<String> imageTags = extractTagsFromImage(imageUrl);
+    public void analyzeImage(String imageInfo) {
 
         ObjectMapper objectMapper = new ObjectMapper();
-
         try {
-            Map<String, Object> map = objectMapper.readValue(imageUrl,
-                    new TypeReference<>() {
-                    });
-            ImageAnalyzerResponse imageAnalyzerResponse = ImageAnalyzerResponse.builder().id((int)map.get("id")).tags(imageTags).build();
+            Image image = objectMapper.readValue(imageInfo, Image.class);
+
+            List<String> imageTags = extractTagsFromImage(image.getUrl());
+
+            ImageAnalyzerResponse imageAnalyzerResponse = ImageAnalyzerResponse.builder().id(image.getId()).tags(imageTags).build();
             // Publish the analyzed tags to another Kafka topic
             kafkaTemplate.send("image-analysis-results", imageAnalyzerResponse);
+
+            System.out.println("Image id: " + image.getId());
+            System.out.println("Image url: " + image.getUrl());
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private List<String> extractTagsFromImage(String imageUrl) {
@@ -45,7 +49,7 @@ public class ImageAnalysisService {
 
         // Create an Image instance from the URL
         ImageSource imageSource = ImageSource.newBuilder().setImageUri(imageUrl).build();
-        Image image = Image.newBuilder().setSource(imageSource).build();
+        com.google.cloud.vision.v1.Image image = com.google.cloud.vision.v1.Image.newBuilder().setSource(imageSource).build();
 
         // Create a feature request for label detection
         Feature feature = Feature.newBuilder().setType(Feature.Type.LABEL_DETECTION).build();
@@ -72,6 +76,6 @@ public class ImageAnalysisService {
             throw new RuntimeException(e);
         }
         // For this example, let's assume we have a list of hardcoded tags
-        return Arrays.asList("tag1", "tag2", "tag3");
+        return tags;
     }
 }
