@@ -63,10 +63,17 @@
                     <div class="card-body">
                         <p class="card-text" th:text="${photo.getDescription()}"></p>
                     </div>
+                    <!-- tags section -->
+                    <div class="card-footer mt-auto">
+                        <small class="text-muted">Tags: </small>
+                        <span th:each="tag : ${photo.tags}" class="badge badge-primary mr-2" th:text="${tag.name}"></span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 
 </div>
 </body>

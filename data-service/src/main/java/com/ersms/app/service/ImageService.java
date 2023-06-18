@@ -2,16 +2,21 @@ package com.ersms.app.service;
 
 import com.ersms.app.domain.ImageEntity;
 import com.ersms.app.domain.ImageMetadataEntity;
+import com.ersms.app.domain.ImageTagEntity;
 import com.ersms.app.exception.RuntimeExceptionWithHttpStatus;
+import com.ersms.app.kafka.ImageUrlProducer;
 import com.ersms.app.model.request.ImageRequest;
 import com.ersms.app.model.request.ImageMetadataRequest;
 import com.ersms.app.model.response.ImageDto;
 import com.ersms.app.repository.ImageMetadataRepository;
 import com.ersms.app.repository.ImageRepository;
+import com.ersms.app.repository.ImageTagRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -20,6 +25,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ImageService {
     private final ImageRepository imageRepository;
+    private final ImageTagRepository imageTagRepository;
+    private final ImageUrlProducer imageUrlProducer;
     private final ImageMetadataRepository imageMetadataRepository;
 
     public List<ImageDto> getAllImages() {
@@ -47,7 +54,9 @@ public class ImageService {
                 .name(request.getName())
                 .description(request.getDescription())
                 .build();
-        imageRepository.save(image);
+
+        ImageEntity savedImage = imageRepository.save(image);
+        imageUrlProducer.produceImage(savedImage);
     }
 
     public void createImageMetadata(String imageUrl, ImageMetadataRequest request) {
