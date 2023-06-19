@@ -36,6 +36,13 @@ public class ImageService {
                 .collect(Collectors.toList());
     }
 
+    public List<ImageDto> getUserImages(String userEmail) {
+        return imageRepository.findAllByUserEmail(userEmail)
+                .stream()
+                .map(ImageDto::from)
+                .collect(Collectors.toList());
+    }
+
     public ImageDto getImage(Long imageId) {
         var image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image at given address cannot be found", HttpStatus.NOT_FOUND));
