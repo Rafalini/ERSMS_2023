@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
+import jakarta.servlet.http.HttpServletRequest;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -42,6 +43,10 @@ public class IndexController {
         return "myAccount";
     }
 
+    @GetMapping(value = { "/account/{name}", "/account/{name}/{email}" })
+    public String myAccount(@PathVariable(required = false) String name, @PathVariable(required = false) String email, HttpServletRequest request) {
+        return "myAccount";
+    }
 
     // Read all images
     @GetMapping(value = {"/", "/index"})
