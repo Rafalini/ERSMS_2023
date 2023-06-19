@@ -16,6 +16,9 @@ public class Image {
     @JsonProperty("description")
     private String description;
 
+    @JsonProperty("user")
+    private Object user;
+
     @JsonProperty("metadata")
     private Object metadata;
 

@@ -80,6 +80,7 @@ services:
     restart: unless-stopped
     environment:
       - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
+      - GOOGLE_APPLICATION_CREDENTIALS=./access_key.json
     networks:
       - kafka-network
 
