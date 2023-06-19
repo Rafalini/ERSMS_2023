@@ -37,9 +37,9 @@ public class IndexController {
     @Autowired
     private StorageService storageService;
 
-    @GetMapping(value = "/login")
-    public String login() {
-        return "login";
+    @GetMapping(value = "/myAccount")
+    public String myAccount() {
+        return "myAccount";
     }
 
 

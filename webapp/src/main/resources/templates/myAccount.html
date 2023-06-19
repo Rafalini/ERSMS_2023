@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html layout:decorate="layouts/defaultLayout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Instagram Account</title>
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fafafa;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .profile {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .profile img {
+      width: 150px;
+      border-radius: 50%;
+    }
+
+    .username {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .bio {
+      margin-top: 10px;
+      color: #666;
+    }
+
+    .tabs {
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      display: inline-block;
+      padding: 10px 20px;
+      font-weight: bold;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      color: #000;
+      border-bottom: 2px solid #000;
+    }
+
+    .photos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .photo {
+      margin: 10px;
+    }
+
+    .photo img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    </style>
+</head>
+<body>
+<div class="container my-5" layout:fragment="content">
+    <body>
+    <div class="container">
+        <div class="profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/6386/6386976.png" alt="Profile Picture">
+            <div class="username">Hello Ania</div>
+        </div>
+        <div class="tabs">
+            <div class="tab active" data-tab="photos">My photos</div>
+            <div class="tab" data-tab="myAccount">My account</div>
+            <div class="tab" data-tab="settings">Settings</div>
+        </div>
+        <div class="photos tab-content" data-tab="photos">
+            <div class="photo">
+                <img src="https://media.photographycourse.net/wp-content/uploads/2014/11/08164934/Landscape-Photography-steps.jpg" alt="Photo 1">
+            </div>
+            <div class="photo">
+                <img src="https://www.lukas-petereit.com/wp-content/uploads/2017/10/Rakotzbr%C3%BCcke-Bridge-Rakotz-Kromlau-Lake-Sun-Sunrise-Landscape-Reflection-Germany-Saxony-Travel-Photography-Nature-Photo-Spreewald-2.jpg" alt="Photo 2">
+            </div>
+            <div class="photo">
+                <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" alt="Photo 3">
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // JavaScript to handle tab switching
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabId = tab.getAttribute('data-tab');
+
+        tabs.forEach(tab => tab.classList.remove('active'));
+        tabContents.forEach(content => content.style.display = 'none');
+
+        tab.classList.add('active');
+        document.querySelector(`.tab-content[data-tab="${tabId}"]`).style.display = 'block';
+      });
+    });
+
+    </script>
+    </body>
+</div>
+</body>
+</html>
