@@ -12,6 +12,8 @@ import java.util.List;
 public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
     Optional<ImageEntity> findByUrl(String imageUrl);
 
+    Optional<ImageEntity> findById(Long imageId);
+
     @Query(value = "SELECT * FROM image WHERE user_email = :userEmail", nativeQuery = true)
     List<ImageEntity> findAllByUserEmail(String userEmail);
 }

@@ -43,8 +43,8 @@ public class ImageService {
                 .collect(Collectors.toList());
     }
 
-    public ImageDto getImage(String imageUrl) {
-        var image = imageRepository.findByUrl(imageUrl)
+    public ImageDto getImage(Long imageId) {
+        var image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image at given address cannot be found", HttpStatus.NOT_FOUND));
 
         return ImageDto.from(image);
@@ -66,9 +66,9 @@ public class ImageService {
         imageUrlProducer.produceImage(savedImage);
     }
 
-    public void createImageMetadata(String imageUrl, ImageMetadataRequest request) {
-        var image = imageRepository.findByUrl(imageUrl)
-                .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image at given address cannot be found", HttpStatus.NOT_FOUND));
+    public void createImageMetadata(Long imageId, ImageMetadataRequest request) {
+        var image = imageRepository.findById(imageId)
+                .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image with given id cannot be found", HttpStatus.NOT_FOUND));
 
         var imageMetadata = ImageMetadataEntity.builder()
                 .cameraModel(request.getCameraModel())
@@ -87,16 +87,16 @@ public class ImageService {
         imageRepository.save(image);
     }
 
-    public void deleteImage(String imageUrl) {
-        var image = imageRepository.findByUrl(imageUrl)
-                .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image at given address cannot be found", HttpStatus.NOT_FOUND));
+    public void deleteImage(Long imageId) {
+        var image = imageRepository.findById(imageId)
+                .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image with given id cannot be found", HttpStatus.NOT_FOUND));
 
         imageRepository.delete(image);
     }
 
-    public void updateImage(String imageUrl, ImageRequest request) {
+    public void updateImage(Long imageId, ImageRequest request) {
 
-        var image = imageRepository.findByUrl(imageUrl)
+        var image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image at given address cannot be found", HttpStatus.NOT_FOUND));
 
         if (Objects.nonNull(request.getName()) && !"".equalsIgnoreCase(request.getName())) {
@@ -109,9 +109,9 @@ public class ImageService {
         imageRepository.save(image);
     }
 
-    public void updateImageMetadata(String imageUrl, ImageMetadataRequest request) {
+    public void updateImageMetadata(Long imageId, ImageMetadataRequest request) {
 
-        var image = imageRepository.findByUrl(imageUrl)
+        var image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image at given address cannot be found", HttpStatus.NOT_FOUND));
 
         var imageMetadata = imageMetadataRepository.findByImage(image)
