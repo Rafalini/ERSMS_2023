@@ -24,9 +24,9 @@ public class ImageController {
     }
 
     //Read one image
-    @GetMapping("/{imageUrl}")
-    public ImageDto getImage(@PathVariable String imageUrl) {
-        return imageService.getImage(imageUrl);
+    @GetMapping("/{imageId}")
+    public ImageDto getImage(@PathVariable Long imageId) {
+        return imageService.getImage(imageId);
     }
 
     //Create an image
@@ -36,15 +36,15 @@ public class ImageController {
     }
 
     //Create image's metadata
-    @PostMapping("/{imageUrl}")
-    public void createImageMetadata(@PathVariable String imageUrl, @RequestBody ImageMetadataRequest request) {
-        imageService.createImageMetadata(imageUrl, request);
+    @PostMapping("/{imageId}")
+    public void createImageMetadata(@PathVariable Long imageId, @RequestBody ImageMetadataRequest request) {
+        imageService.createImageMetadata(imageId, request);
     }
 
     //Delete an image and its metadata
-    @DeleteMapping("/{imageUrl}")
-    public void deleteImage(@PathVariable String imageUrl) {
-        imageService.deleteImage(imageUrl);
+    @DeleteMapping("/{imageId}")
+    public void deleteImage(@PathVariable Long imageId) {
+        imageService.deleteImage(imageId);
     }
 
     //Update an image

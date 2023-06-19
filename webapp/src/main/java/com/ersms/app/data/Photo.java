@@ -7,11 +7,11 @@ import java.util.List;
 
 @Data
 public class Photo {
-    private int id;
+    private Long id;
     private String name;
     private String description;
     private MultipartFile file;
     private String url;
-    private Object metadata;
+    private Metadata metadata;
     private List<Tag> tags;
 }
