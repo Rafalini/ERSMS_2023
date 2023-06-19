@@ -62,7 +62,7 @@ public class IndexController {
         String result = restTemplate.getForObject(url, String.class);
         Photo photo = objectMapper.readValue(result, new TypeReference<>() {});
         model.addAttribute("photo", photo);
-        return "photo";
+        return "index";
     }
 
     // Create an image
@@ -103,7 +103,7 @@ public class IndexController {
     }
 
     //Create image's metadata
-    @PostMapping(value = "/metadata/{imageId}")
+    @PostMapping(value = "/upload/{imageId}/metadata")
     public String createMetadata(@PathVariable("imageId") Long imageId, @ModelAttribute Metadata metadata) {
         String url = "http://localhost:8083/api/v1/images/" + imageId + "/metadata";
         HttpHeaders headers = new HttpHeaders();
@@ -112,13 +112,13 @@ public class IndexController {
         String requestBody = String.format("""
         {
             "cameraModel": "%s",
-            "aperture": %f,
-            "pixelsVertically": %d,
-            "pixelsHorizontally": %d,
-            "focalLength": %f,
-            "shutterSpeed": %d,
+            "aperture": "%f",
+            "pixelsVertically": "%d",
+            "pixelsHorizontally": "%d",
+            "focalLength": "%f",
+            "shutterSpeed": "%d",
             "location": "%s",
-            "dateTime": "%t"
+            "dateTime": "%s"
         }
         """,
                 metadata.getCameraModel(),
@@ -138,8 +138,65 @@ public class IndexController {
     }
 
     //Update an image
+    @PutMapping(value = "/update/{imageId}")
+    public String updateImage(@PathVariable("imageId") Long imageId, @ModelAttribute Photo photo) {
+        try {
+            String url = "http://localhost:8083/api/v1/images/" + imageId;
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            String requestBody = """
+            {
+                "name": "%s",
+                "description": "%s"
+            }
+            """.formatted(photo.getName(), photo.getDescription());
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+            restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Void.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/index";
+    }
 
     //Update image metadata
+    @PutMapping(value = "/update/{imageId}/metadata")
+    public String updateImageMetadata(@PathVariable("imageId") Long imageId, @ModelAttribute Metadata metadata) {
+        try {
+            String url = "http://localhost:8083/api/v1/images/" + imageId + "/metadata";
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            String requestBody = """
+            {
+                "cameraModel": "%s",
+                "aperture": "%f",
+                "pixelsVertically": "%d",
+                "pixelsHorizontally": "%d",
+                "focalLength": "%f",
+                "shutterSpeed": "%d",
+                "location": "%s",
+                "dateTime": "%s"
+            }
+            """.formatted(
+                    metadata.getCameraModel(),
+                    metadata.getAperture(),
+                    metadata.getPixelsVertically(),
+                    metadata.getPixelsHorizontally(),
+                    metadata.getFocalLength(),
+                    metadata.getShutterSpeed(),
+                    metadata.getLocation(),
+                    metadata.getDateTime()
+            );
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+            restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Void.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/index";
+    }
 
     //Delete an image and its metadata
     @GetMapping(value = "/delete/{imageId}")

@@ -87,9 +87,9 @@ public class ImageService {
         imageRepository.delete(image);
     }
 
-    public void updateImage(String imageUrl, ImageRequest request) {
+    public void updateImage(Long imageId, ImageRequest request) {
 
-        var image = imageRepository.findByUrl(imageUrl)
+        var image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image at given address cannot be found", HttpStatus.NOT_FOUND));
 
         if (Objects.nonNull(request.getName()) && !"".equalsIgnoreCase(request.getName())) {
@@ -102,9 +102,9 @@ public class ImageService {
         imageRepository.save(image);
     }
 
-    public void updateImageMetadata(String imageUrl, ImageMetadataRequest request) {
+    public void updateImageMetadata(Long imageId, ImageMetadataRequest request) {
 
-        var image = imageRepository.findByUrl(imageUrl)
+        var image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image at given address cannot be found", HttpStatus.NOT_FOUND));
 
         var imageMetadata = imageMetadataRepository.findByImage(image)

@@ -36,7 +36,7 @@ public class ImageController {
     }
 
     //Create image's metadata
-    @PostMapping("/{imageId}")
+    @PostMapping("/{imageId}/metadata")
     public void createImageMetadata(@PathVariable Long imageId, @RequestBody ImageMetadataRequest request) {
         imageService.createImageMetadata(imageId, request);
     }
@@ -48,14 +48,14 @@ public class ImageController {
     }
 
     //Update an image
-    @PutMapping("/{imageUrl}")
-    public void updateImage(@PathVariable("imageUrl") String imageUrl, @RequestBody ImageRequest request) {
-        imageService.updateImage(imageUrl, request);
+    @PutMapping("/{imageId}")
+    public void updateImage(@PathVariable("imageId") Long imageId, @RequestBody ImageRequest request) {
+        imageService.updateImage(imageId, request);
     }
 
     //Update image metadata
-    @PutMapping("/{imageUrl}/metadata")
-    public void updateImage(@PathVariable("imageUrl") String imageUrl, @RequestBody ImageMetadataRequest request) {
-        imageService.updateImageMetadata(imageUrl, request);
+    @PutMapping("/{imageId}/metadata")
+    public void updateImage(@PathVariable("imageId") Long imageId, @RequestBody ImageMetadataRequest request) {
+        imageService.updateImageMetadata(imageId, request);
     }
 }
