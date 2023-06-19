@@ -1,10 +1,12 @@
 package com.ersms.app.authentication;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -24,17 +26,20 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 //        Authentication authentication2 = SecurityContextHolder.getContext().getAuthentication();
 //        if (authentication != null && authentication2.isAuthenticated()) {
 //            Object principal = authentication2.getPrincipal();
-//
 //            if (principal instanceof OAuth2User) {
 //                OAuth2User oauth2User = (OAuth2User) principal;
 //                String name = oauth2User.getAttribute("given_name");
 //                String email = oauth2User.getAttribute("email");
-//                redirectStrategy.sendRedirect(request, response, "http://localhost:8081/account/" + name + "/" + email);
-//                return;
+//                String token = ((DefaultOidcUser) oauth2User).getIdToken().getTokenValue();
+//                Cookie authCookie = new Cookie("Authorization", token);
+//                authCookie.setHttpOnly(true); // Bezpieczeństwo: ciasteczko nie jest dostępne dla skryptów JS
+//                authCookie.setSecure(true); // Bezpieczeństwo: ciasteczko jest wysyłane tylko przez HTTPS
+//                authCookie.setPath("/"); // Ciasteczko jest dostępne dla całej strony
+//                authCookie.setMaxAge(24 * 60 * 60); // Ustalenie czasu wygaśnięcia ciasteczka na 24 godziny
+//                response.addCookie(authCookie);
+                redirectStrategy.sendRedirect(request, response, "http://localhost:8081/index");
 //            }
 //        }
-
-        redirectStrategy.sendRedirect(request, response, "http://localhost:8081/myAccount");
     }
 }
 
