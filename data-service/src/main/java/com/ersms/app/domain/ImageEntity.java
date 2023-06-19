@@ -28,6 +28,10 @@ public class ImageEntity {
 
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "user_email")
+    private UserEntity user;
+
     @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "metadata_id")
     private ImageMetadataEntity metadata;
