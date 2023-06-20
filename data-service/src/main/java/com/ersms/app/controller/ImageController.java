@@ -29,6 +29,7 @@ public class ImageController {
         return imageService.getImage(imageId);
     }
 
+
     //Create an image
     @PostMapping
     public void createImage(@RequestBody ImageRequest request) {

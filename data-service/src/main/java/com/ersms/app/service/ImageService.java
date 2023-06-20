@@ -40,7 +40,10 @@ public class ImageService {
     }
 
     public List<ImageDto> getUserImages(String userEmail) {
-        return imageRepository.findAllByUserEmail(userEmail)
+        var user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("User with given email cannot be found", HttpStatus.NOT_FOUND));
+
+        return imageRepository.findAllByUser(user)
                 .stream()
                 .map(ImageDto::from)
                 .collect(Collectors.toList());
@@ -119,9 +122,8 @@ public class ImageService {
         if (Objects.nonNull(request.getName()) && !"".equalsIgnoreCase(request.getName())) {
             image.setName(request.getName());
         }
-        if (Objects.nonNull(request.getDescription()) && !"".equalsIgnoreCase(request.getDescription())) {
-            image.setDescription(request.getDescription());
-        }
+
+        image.setDescription(request.getDescription());
 
         imageRepository.save(image);
     }

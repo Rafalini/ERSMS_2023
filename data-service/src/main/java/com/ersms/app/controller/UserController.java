@@ -24,9 +24,9 @@ public class UserController {
         return userService.getUser(userMail);
     }
 
-    //Read all images
+    //Read user's images
     @GetMapping("/{userMail}/images")
-    public List<ImageDto> getUserImages() {
-        return imageService.getAllImages();
+    public List<ImageDto> getUserImages(@PathVariable String userMail) {
+        return imageService.getUserImages(userMail);
     }
 }
