@@ -37,15 +37,15 @@ services:
     ports:
       - "8081:8081"
     restart: unless-stopped
-  authentication:
-    container_name: authentication
-    build:
-      context: authentication
-      dockerfile: Dockerfile
-    image: authentication:latest
-    ports:
-      - "8080:8080"
-    restart: unless-stopped
+#  authentication:
+#    container_name: authentication
+#    build:
+#      context: authentication
+#      dockerfile: Dockerfile
+#    image: authentication:latest
+#    ports:
+#      - "8080:8080"
+#    restart: unless-stopped
   data-service:
     container_name: data-service
     build:
