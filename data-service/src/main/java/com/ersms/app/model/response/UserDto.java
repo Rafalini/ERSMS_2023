@@ -14,14 +14,10 @@ import java.util.List;
 @Builder
 public class UserDto {
     private String email;
-    private String firstname;
-    private String lastname;
 
     public static UserDto from(UserEntity entity){
         return UserDto.builder()
                 .email(entity.getEmail())
-                .firstname(entity.getFirstname())
-                .lastname(entity.getLastname())
                 .build();
     }
 }

@@ -113,9 +113,10 @@ public class IndexController {
                          {
                             "url": "%s",
                             "name": "%s",
-                            "description": "%s"
+                            "description": "%s",
+                            "email": "%s"
                          }
-                        """.formatted(mediaLink, photo.getName(), photo.getDescription());
+                        """.formatted(mediaLink, photo.getName(), photo.getDescription(), email);
                 HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
                 restTemplate.exchange(url, HttpMethod.POST, requestEntity, Void.class);
             }

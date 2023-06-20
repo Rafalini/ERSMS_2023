@@ -29,7 +29,7 @@ public class ImageEntity {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "user_email")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)

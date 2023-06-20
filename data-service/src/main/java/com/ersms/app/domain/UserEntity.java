@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 @Data
 @Builder
@@ -14,12 +13,11 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "_user")
 public class UserEntity {
+
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true)
     private String email;
-
-    private String firstname;
-    private String lastname;
-
 }

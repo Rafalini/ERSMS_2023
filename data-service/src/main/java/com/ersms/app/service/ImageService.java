@@ -3,6 +3,7 @@ package com.ersms.app.service;
 import com.ersms.app.domain.ImageEntity;
 import com.ersms.app.domain.ImageMetadataEntity;
 import com.ersms.app.domain.ImageTagEntity;
+import com.ersms.app.domain.UserEntity;
 import com.ersms.app.exception.RuntimeExceptionWithHttpStatus;
 import com.ersms.app.kafka.ImageUrlProducer;
 import com.ersms.app.model.request.ImageRequest;
@@ -11,6 +12,7 @@ import com.ersms.app.model.response.ImageDto;
 import com.ersms.app.repository.ImageMetadataRepository;
 import com.ersms.app.repository.ImageRepository;
 import com.ersms.app.repository.ImageTagRepository;
+import com.ersms.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
+    private final UserRepository userRepository;
     private final ImageRepository imageRepository;
     private final ImageTagRepository imageTagRepository;
     private final ImageUrlProducer imageUrlProducer;
@@ -52,14 +55,27 @@ public class ImageService {
 
     public void createImage(ImageRequest request) {
 
+        var userEmail = request.getUserEmail();
+
+        if (userRepository.findByEmail(userEmail).isEmpty()) {
+            var user = UserEntity.builder()
+                    .email(userEmail)
+                    .build();
+            userRepository.save(user);
+        }
+
         if (imageRepository.findByUrl(request.getUrl()).isPresent()) {
             throw new RuntimeExceptionWithHttpStatus("The image already exists in the database", HttpStatus.CONFLICT);
         }
+
+        var user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Given user cannot be found", HttpStatus.NOT_FOUND));
 
         var image = ImageEntity.builder()
                 .url(request.getUrl())
                 .name(request.getName())
                 .description(request.getDescription())
+                .user(user)
                 .build();
 
         ImageEntity savedImage = imageRepository.save(image);

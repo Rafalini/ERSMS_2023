@@ -12,4 +12,5 @@ public class ImageRequest {
     private String url;
     private String name;
     private String description;
+    private String userEmail;
 }
