@@ -40,7 +40,10 @@ public class ImageService {
     }
 
     public List<ImageDto> getUserImages(String userEmail) {
-        return imageRepository.findAllByUserEmail(userEmail)
+        var user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("User with given email cannot be found", HttpStatus.NOT_FOUND));
+
+        return imageRepository.findAllByUser(user)
                 .stream()
                 .map(ImageDto::from)
                 .collect(Collectors.toList());
