@@ -56,17 +56,15 @@ services:
       - "8083:8083"
     restart: unless-stopped
     depends_on:
-      - postgres
       - kafka
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/mpio
-      - SPRING_DATASOURCE_USERNAME=mpio
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://34.134.181.2:5432/mpio
+      - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
       - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
     networks:
-      - postgres-network
       - kafka-network
 
   image-analyzer:
