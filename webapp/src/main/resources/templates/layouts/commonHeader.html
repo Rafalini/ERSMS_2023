@@ -1,6 +1,8 @@
 <div th:fragment="header" class="top-bar">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">FotoWiadro</a>
+    <a class="navbar-brand display-15" href="#">
+       <i class="fas fa-bucket fa-2x">FotoWiadro 📷🪣</i>
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,7 +14,7 @@
         <li class="nav-item active">
           <a class="nav-link" th:href="@{/index}">All photos<span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" th:if="${email != 'anon'}">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Logged in as: <span th:text="${email}"></span>
           </a>
@@ -20,6 +22,11 @@
             <a class="dropdown-item" th:href="@{'/' + ${email} + '/myAccount'}">My Account</a>
             <a class="dropdown-item" th:href="@{'/logout'}">Logout</a>
           </div>
+        </li>
+
+        <!-- Show this when the user is not logged in (email equals to "anon") -->
+        <li class="nav-item active" th:if="${email == 'anon'}">
+          <a class="nav-link" th:href="@{'/login'}">Login<span class="sr-only">(current)</span></a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">

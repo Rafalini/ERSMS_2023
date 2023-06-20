@@ -1,3 +1,7 @@
 <div th:fragment="footer">
-  <p class="alert alert-primary">ERSMS 2023L </p>
+  <footer class="footer mt-auto py-3 bg-dark text-white">
+    <div class="container text-center">
+      <span class="text-muted">&copy; <span th:text="${#dates.year(#dates.createNow())}"></span> FotoWiadro. All rights reserved.</span>
+    </div>
+  </footer>
 </div>
