@@ -175,7 +175,6 @@ public class IndexController {
                 "description": "%s"
             }
             """.formatted(photo.getName(), photo.getDescription());
-
             HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
             restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Void.class);
         } catch (Exception e) {

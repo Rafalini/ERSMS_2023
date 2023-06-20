@@ -119,9 +119,8 @@ public class ImageService {
         if (Objects.nonNull(request.getName()) && !"".equalsIgnoreCase(request.getName())) {
             image.setName(request.getName());
         }
-        if (Objects.nonNull(request.getDescription()) && !"".equalsIgnoreCase(request.getDescription())) {
-            image.setDescription(request.getDescription());
-        }
+
+        image.setDescription(request.getDescription());
 
         imageRepository.save(image);
     }
