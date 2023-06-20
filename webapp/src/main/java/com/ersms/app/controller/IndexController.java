@@ -162,7 +162,7 @@ public class IndexController {
     }
 
     //Update an image
-    @PutMapping(value = "/update/{imageId}")
+    @PostMapping(value = "/update/{imageId}")
     public String updateImage(@PathVariable("imageId") Long imageId, @ModelAttribute Photo photo) {
         try {
             String url = "http://localhost:8083/api/v1/images/" + imageId;
@@ -182,6 +182,15 @@ public class IndexController {
             e.printStackTrace();
         }
         return "redirect:/index";
+    }
+
+    @GetMapping(value = "/update/{imageId}")
+    public String updateImageView(@PathVariable("imageId") Long imageId, Model model) throws JsonProcessingException {
+        String url = "http://localhost:8083/api/v1/images/" + imageId;
+        String result = restTemplate.getForObject(url, String.class);
+        Photo photo = objectMapper.readValue(result, new TypeReference<>() {});
+        model.addAttribute("photo", photo);
+        return "update";
     }
 
     //Update image metadata

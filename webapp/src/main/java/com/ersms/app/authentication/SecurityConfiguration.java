@@ -24,6 +24,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/myAccount").authenticated()
                         .requestMatchers("/upload").authenticated()
+                        .requestMatchers("/delete/{imageId}").authenticated()
+                        .requestMatchers("/update/{imageId}").authenticated()
                         .anyRequest().permitAll()
                 )
                 .oauth2Login()

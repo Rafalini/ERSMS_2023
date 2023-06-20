@@ -52,12 +52,31 @@
 
 <div id="main-wall">
 
-
     <div class="container my-5" layout:fragment="content">
         <div class="row">
             <div class="col-md-6 offset-md-3" th:each="photo : ${photos}">
                 <div class="card mb-4 shadow-sm">
-                    <h5 class="card-header" th:text="${photo.getName()}"></h5>
+                    <!-- user info and dropdown menu -->
+                    <div class="card-header d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="mb-1" th:text="${photo.getName()}"></h5>
+                            <span class="text-muted">
+                                <i class="fas fa-user"></i>
+                                <span th:text="${photo.getUserEmail()}"></span>
+                            </span>
+                        </div>
+                        <div class="dropdown no-arrow" th:if="${photo.getUserEmail() == email}">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                 aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" th:href="@{'/update/' + ${photo.getId()}}" href="#">Edit</a>
+                                <a class="dropdown-item" th:href="@{'/delete/' + ${photo.getId()}}" href="#">Remove</a>
+                            </div>
+                        </div>
+                    </div>
                     <img class="card-img-top" th:src="@{${photo.getUrl()}}" alt="Image">
                     <div class="card-body">
                         <p class="card-text" th:text="${photo.getDescription()}"></p>
@@ -71,7 +90,6 @@
             </div>
         </div>
     </div>
-
 
 
 </div>

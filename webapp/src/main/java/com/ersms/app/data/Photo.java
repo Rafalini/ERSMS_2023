@@ -9,6 +9,7 @@ import java.util.List;
 public class Photo {
     private Long id;
     private String name;
+    private String userEmail;
     private String description;
     private MultipartFile file;
     private String url;
