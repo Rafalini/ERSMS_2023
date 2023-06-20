@@ -22,7 +22,6 @@
     <module>authentication</module>
     <module>image-analyzer</module>
     <module>data-service</module>
-    <module>kafka-example</module>
   </modules>
 
   <properties>
