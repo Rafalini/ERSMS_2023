@@ -29,7 +29,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 OAuth2User oauth2User = (OAuth2User) principal;
                 String name = oauth2User.getAttribute("given_name");
                 String email = oauth2User.getAttribute("email");
-                redirectStrategy.sendRedirect(request, response, "http://localhost:8081/account/" + name + "/" + email);
+                redirectStrategy.sendRedirect(request, response, "http://localhost:8081/" + email + "/myAccount");
                 return;
             }
         }

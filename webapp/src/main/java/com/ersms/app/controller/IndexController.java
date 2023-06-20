@@ -3,6 +3,7 @@ package com.ersms.app.controller;
 import com.ersms.app.data.Metadata;
 import com.ersms.app.data.Photo;
 import com.ersms.app.service.StorageService;
+import com.ersms.app.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,9 +42,15 @@ public class IndexController {
     private RestTemplate restTemplate;
     @Autowired
     private StorageService storageService;
+    @Autowired
+    private UserService userService;
 
-    @GetMapping(value = "/myAccount")
-    public String myAccount() {
+    @GetMapping(value = "/{username}/myAccount")
+    @PreAuthorize("@userService.isUserEmailMatchesUsername(#username)")
+    public String myAccount(@PathVariable String username, Model model) {
+        String email = userService.getEmailAddresOfLoggedInUser();
+        model.addAttribute("email", email);
+        model.addAttribute(username);
         return "myAccount";
     }
 
@@ -51,12 +62,15 @@ public class IndexController {
     // Read all images
     @GetMapping(value = {"/", "/index"})
     public String index(Model model) throws JsonProcessingException {
+        String email = userService.getEmailAddresOfLoggedInUser();
+
         String url = "http://localhost:8083/api/v1/images";
         String result = restTemplate.getForObject(url, String.class);
         List<Photo> photos = objectMapper.readValue(result, new TypeReference<>() {});
         Collections.reverse(photos);
 
         model.addAttribute("photos", photos);
+        model.addAttribute("email", email);
         return "index";
     }
 
@@ -72,12 +86,16 @@ public class IndexController {
 
     // Create an image
     @GetMapping(value = "/upload")
-    public String upload() {
+    public String upload(Model model) {
+        String email = userService.getEmailAddresOfLoggedInUser();
+        model.addAttribute("email", email);
         return "upload";
     }
 
     @PostMapping(value = "/upload")
-    public String upload(@ModelAttribute Photo photo) {
+    public String upload(@ModelAttribute Photo photo, Model model) {
+        String email = userService.getEmailAddresOfLoggedInUser();
+        model.addAttribute("email", email);
         try {
             if (!photo.getFile().isEmpty()) {
                 String filename = photo.getFile().getOriginalFilename();
