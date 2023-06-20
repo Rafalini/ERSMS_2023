@@ -7,7 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan({"com.ersms.app"})
 @EntityScan("com.ersms.app")
 @EnableJpaRepositories("com.ersms.app")
 public class DataService {
