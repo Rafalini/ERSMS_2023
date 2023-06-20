@@ -21,6 +21,7 @@ public class ImageDto {
     private String description;
     private ImageMetadataEntity metadata;
     private List<ImageTagEntity> tags;
+    private String userEmail;
 
     public static ImageDto from(ImageEntity entity){
         return ImageDto.builder()
@@ -30,6 +31,7 @@ public class ImageDto {
                 .description(entity.getDescription())
                 .metadata(entity.getMetadata())
                 .tags(entity.getTags())
+                .userEmail(entity.getUser().getEmail())
                 .build();
     }
 }

@@ -107,6 +107,7 @@ public class ImageService {
         var image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image with given id cannot be found", HttpStatus.NOT_FOUND));
 
+        image.setTags(null);
         imageRepository.delete(image);
     }
 

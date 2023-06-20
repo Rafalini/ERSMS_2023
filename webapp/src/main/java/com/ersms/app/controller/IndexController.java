@@ -114,7 +114,7 @@ public class IndexController {
                             "url": "%s",
                             "name": "%s",
                             "description": "%s",
-                            "email": "%s"
+                            "userEmail": "%s"
                          }
                         """.formatted(mediaLink, photo.getName(), photo.getDescription(), email);
                 HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
