@@ -54,7 +54,12 @@ public class ImageService {
     }
 
     public List<ImageDto> getImagesWithTags(List<String> tags) {
-        return imageRepository.findAllByTags(tags)
+
+        List<String> tagsLowerCase = tags.stream()
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+
+        return imageRepository.findAllByTags(tagsLowerCase)
                 .stream()
                 .map(ImageDto::from)
                 .collect(Collectors.toList());
