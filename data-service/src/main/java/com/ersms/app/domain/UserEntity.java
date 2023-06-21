@@ -20,4 +20,11 @@ public class UserEntity {
 
     @Column(unique = true)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public enum Role {
+        USER, ADMIN
+    }
 }
