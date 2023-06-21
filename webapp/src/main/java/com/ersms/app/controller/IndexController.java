@@ -64,7 +64,7 @@ public class IndexController {
     public String index(Model model) throws JsonProcessingException {
         String email = userService.getEmailAddresOfLoggedInUser();
 
-        String url = "http://localhost:8083/api/v1/images";
+        String url = "https://data-service-hc3by55bjq-uc.a.run.app/api/v1/images";
         String result = restTemplate.getForObject(url, String.class);
         List<Photo> photos = objectMapper.readValue(result, new TypeReference<>() {});
         Collections.reverse(photos);
@@ -77,7 +77,7 @@ public class IndexController {
     // Read one image
     @GetMapping(value = "/index/{imageId}")
     public String getPhoto(@PathVariable("imageId") Long imageId, Model model) throws JsonProcessingException {
-        String url = "http://localhost:8083/api/v1/images/" + imageId;
+        String url = "https://data-service-hc3by55bjq-uc.a.run.app/api/v1/images/" + imageId;
         String result = restTemplate.getForObject(url, String.class);
         Photo photo = objectMapper.readValue(result, new TypeReference<>() {});
         model.addAttribute("photo", photo);
@@ -106,7 +106,7 @@ public class IndexController {
                 );
                 String mediaLink = blobInfo.getMediaLink();
                 System.out.println("File uploaded to: " + mediaLink);
-                String url = "http://localhost:8083/api/v1/images";
+                String url = "https://data-service-hc3by55bjq-uc.a.run.app/api/v1/images";
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
                 String requestBody = """
@@ -129,7 +129,7 @@ public class IndexController {
     //Create image's metadata
     @PostMapping(value = "/upload/{imageId}/metadata")
     public String createMetadata(@PathVariable("imageId") Long imageId, @ModelAttribute Metadata metadata) {
-        String url = "http://localhost:8083/api/v1/images/" + imageId + "/metadata";
+        String url = "https://data-service-hc3by55bjq-uc.a.run.app/api/v1/images/" + imageId + "/metadata";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -165,7 +165,7 @@ public class IndexController {
     @PostMapping(value = "/update/{imageId}")
     public String updateImage(@PathVariable("imageId") Long imageId, @ModelAttribute Photo photo) {
         try {
-            String url = "http://localhost:8083/api/v1/images/" + imageId;
+            String url = "https://data-service-hc3by55bjq-uc.a.run.app/api/v1/images/" + imageId;
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -185,7 +185,7 @@ public class IndexController {
 
     @GetMapping(value = "/update/{imageId}")
     public String updateImageView(@PathVariable("imageId") Long imageId, Model model) throws JsonProcessingException {
-        String url = "http://localhost:8083/api/v1/images/" + imageId;
+        String url = "https://data-service-hc3by55bjq-uc.a.run.app/api/v1/images/" + imageId;
         String result = restTemplate.getForObject(url, String.class);
         Photo photo = objectMapper.readValue(result, new TypeReference<>() {});
         model.addAttribute("photo", photo);
@@ -196,7 +196,7 @@ public class IndexController {
     @PutMapping(value = "/update/{imageId}/metadata")
     public String updateImageMetadata(@PathVariable("imageId") Long imageId, @ModelAttribute Metadata metadata) {
         try {
-            String url = "http://localhost:8083/api/v1/images/" + imageId + "/metadata";
+            String url = "https://data-service-hc3by55bjq-uc.a.run.app/api/v1/images/" + imageId + "/metadata";
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -233,7 +233,7 @@ public class IndexController {
     //Delete an image and its metadata
     @GetMapping(value = "/delete/{imageId}")
     public String delete(@PathVariable("imageId") Long imageId) {
-        String url = "http://localhost:8083/api/v1/images/" + imageId;
+        String url = "https://data-service-hc3by55bjq-uc.a.run.app/api/v1/images/" + imageId;
         restTemplate.exchange(url, HttpMethod.DELETE, null, Void.class);
         return "redirect:/index";
     }
