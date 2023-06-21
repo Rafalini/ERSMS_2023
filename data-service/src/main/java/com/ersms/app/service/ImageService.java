@@ -54,7 +54,12 @@ public class ImageService {
     }
 
     public List<ImageDto> getImagesWithTags(List<String> tags) {
-        return imageRepository.findAllByTags(tags)
+
+        List<String> tagsLowerCase = tags.stream()
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+
+        return imageRepository.findAllByTags(tagsLowerCase)
                 .stream()
                 .map(ImageDto::from)
                 .collect(Collectors.toList());
@@ -67,6 +72,7 @@ public class ImageService {
         if (userRepository.findByEmail(userEmail).isEmpty()) {
             var user = UserEntity.builder()
                     .email(userEmail)
+                    .role(UserEntity.Role.USER)
                     .build();
             userRepository.save(user);
         }
