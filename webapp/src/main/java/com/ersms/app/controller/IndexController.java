@@ -217,6 +217,12 @@ public class IndexController {
     public String updateImage(@PathVariable("imageId") Long imageId, @ModelAttribute Photo photo) {
         try {
             String url = "http://localhost:8083/api/v1/images/" + imageId;
+            String result = restTemplate.getForObject(url, String.class);
+            Photo oldPhoto = objectMapper.readValue(result, new TypeReference<>() {});
+            String email = oldPhoto.getUserEmail();
+            if(!userService.isUserEmailMatchesUsername(email) && !userService.isAdmin())
+                return "redirect:/index"; // to do unauthorized page
+
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -284,10 +290,21 @@ public class IndexController {
     //Delete an image and its metadata
     @GetMapping(value = "/delete/{imageId}")
     public String delete(@PathVariable("imageId") Long imageId) {
+
         String url = "http://localhost:8083/api/v1/images/" + imageId;
+        String result = restTemplate.getForObject(url, String.class);
+        Photo photo = null;
+        try {
+            photo = objectMapper.readValue(result, new TypeReference<>() {});
+            String email = photo.getUserEmail();
+            if (!userService.isUserEmailMatchesUsername(email) && !userService.isAdmin())
+                return "redirect:/index"; // to do unauthorize page
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         restTemplate.exchange(url, HttpMethod.DELETE, null, Void.class);
         return "redirect:/index";
     }
-
 
 }
