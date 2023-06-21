@@ -16,4 +16,12 @@ public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
     Optional<ImageEntity> findById(Long imageId);
 
     List<ImageEntity> findAllByUser(UserEntity user);
+
+    @Query(value = "SELECT DISTINCT i.*\n" +
+            "FROM image i\n" +
+            "JOIN image_recognition ir ON i.id = ir.image_id\n" +
+            "JOIN image_tag it ON ir.image_tag_id = it.id\n" +
+            "WHERE it.name IN (?1)", nativeQuery = true)
+    List<ImageEntity> findAllByTags(List<String> tags);
 }
+
