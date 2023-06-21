@@ -54,6 +54,25 @@
 
     <div class="container my-5" layout:fragment="content">
         <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h2 class="text-center mb-4" th:if="${tags != null and tags != ''}">Searched by: <span
+                        th:text="${tags}"></span></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h2 class="text-center mb-4" th:if="${searchedByMail != null and searchedByMail != ''}">Photos of: <span
+                        th:text="${searchedByMail}"></span></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h2 class="text-center mb-4" th:if="${myAccount != null and myAccount != ''}">Hello <span
+                        th:text="${myAccount}"></span></h2>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-md-6 offset-md-3" th:each="photo : ${photos}">
                 <div class="card mb-4 shadow-sm">
                     <!-- user info and dropdown menu -->
@@ -62,7 +81,7 @@
                             <h5 class="mb-1" th:text="${photo.getName()}"></h5>
                             <span class="text-muted">
                                 <i class="fas fa-user"></i>
-                                <span th:text="${photo.getUserEmail()}"></span>
+                                <a th:href="@{'/photos/' + ${photo.getUserEmail()}}" th:text="${photo.getUserEmail()}"></a>
                             </span>
                         </div>
                         <div class="dropdown no-arrow" th:if="${photo.getUserEmail() == email}">
@@ -84,7 +103,11 @@
                     <!-- tags section -->
                     <div class="card-footer mt-auto">
                         <small class="text-muted">Tags: </small>
-                        <span th:each="tag : ${photo.tags}" class="badge badge-primary mr-2" th:text="${tag.name}"></span>
+                        <a th:each="tag : ${photo.tags}"
+                           class="badge badge-primary mr-2"
+                           th:href="@{'/search/' + ${tag.name}}"
+                           th:text="${tag.name}">
+                        </a>
                     </div>
                 </div>
             </div>

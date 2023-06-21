@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,16 +48,66 @@ public class IndexController {
 
     @GetMapping(value = "/{username}/myAccount")
     @PreAuthorize("@userService.isUserEmailMatchesUsername(#username)")
-    public String myAccount(@PathVariable String username, Model model) {
+    public String myAccount(@PathVariable String username, Model model) throws JsonProcessingException {
         String email = userService.getEmailAddresOfLoggedInUser();
         model.addAttribute("email", email);
         model.addAttribute(username);
-        return "myAccount";
+
+        String url = "http://localhost:8083/api/v1/users/" + username + "/images";
+        String result = "";
+        try {
+            result = restTemplate.getForObject(url, String.class);
+            List<Photo> photos = objectMapper.readValue(result, new TypeReference<>() {});
+            Collections.reverse(photos);
+
+            model.addAttribute("photos", photos);
+        } catch (Exception ignored){
+        }
+
+        model.addAttribute("email", email);
+        model.addAttribute("myAccount", username);
+
+        return "index";
     }
 
     @GetMapping(value = { "/account/{name}", "/account/{name}/{email}" })
     public String myAccount(@PathVariable(required = false) String name, @PathVariable(required = false) String email, HttpServletRequest request) {
         return "myAccount";
+    }
+
+    @GetMapping(value = "/photos/{userEmail}")
+    public String userPhotos(@PathVariable String userEmail, Model model) throws JsonProcessingException {
+        String email = userService.getEmailAddresOfLoggedInUser();
+        String url = "http://localhost:8083/api/v1/users/" + userEmail + "/images";
+//        String url = "http://localhost:8083/api/v1/images";
+
+        String result = restTemplate.getForObject(url, String.class);
+        List<Photo> photos = objectMapper.readValue(result, new TypeReference<>() {});
+        Collections.reverse(photos);
+
+        model.addAttribute("photos", photos);
+        model.addAttribute("email", email);
+        model.addAttribute("searchedByMail", userEmail);
+
+        return "index";
+    }
+
+    @PostMapping("/search")
+    public String handleForm(@RequestParam String tags) {
+        return "redirect:/search/" + tags;
+    }
+    @GetMapping(value = "/search/{tags}")
+    public String search(@PathVariable String tags, Model model) throws JsonProcessingException {
+        String email = userService.getEmailAddresOfLoggedInUser();
+        String url = "http://localhost:8083/api/v1/images/tags?tags=" + tags;
+        String result = restTemplate.getForObject(url, String.class);
+        List<Photo> photos = objectMapper.readValue(result, new TypeReference<>() {});
+        Collections.reverse(photos);
+
+        model.addAttribute("photos", photos);
+        model.addAttribute("email", email);
+        model.addAttribute("tags", tags);
+        return "index";
     }
 
     // Read all images
