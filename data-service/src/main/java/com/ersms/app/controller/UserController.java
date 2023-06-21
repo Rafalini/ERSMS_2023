@@ -18,6 +18,13 @@ public class UserController {
     private final ImageService imageService;
     private final UserService userService;
 
+
+    //Get user's role
+    @GetMapping("/{userMail}/role")
+    public String getUserRole(@PathVariable String userMail) {
+        return userService.getUserRole(userMail);
+    }
+
     //Get user's details
     @GetMapping("/{userMail}/details")
     public UserDto getUserDetails(@PathVariable String userMail) {

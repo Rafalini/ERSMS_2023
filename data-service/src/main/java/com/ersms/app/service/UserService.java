@@ -20,6 +20,12 @@ public class UserService {
         return UserDto.from(user);
     }
 
+    public String getUserRole(String email) {
+        var user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("User with given email cannot be found", HttpStatus.NOT_FOUND));
+
+        return String.valueOf(user.getRole());
+    }
 }
 
 

@@ -72,6 +72,7 @@ public class ImageService {
         if (userRepository.findByEmail(userEmail).isEmpty()) {
             var user = UserEntity.builder()
                     .email(userEmail)
+                    .role(UserEntity.Role.USER)
                     .build();
             userRepository.save(user);
         }
