@@ -36,15 +36,9 @@ public class UserService {
 
     public boolean isAdmin() {
         String username = getEmailAddresOfLoggedInUser();
-        String roleUrl = "http://localhost:8083/api/v1/users/" + username + "/role";
+        String role = "http://localhost:8083/api/v1/users/" + username + "/role";
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(roleUrl, String.class);
-        if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            String role = responseEntity.getBody();
-            return "ADMIN".equals(role);
-        }
-        return false;
+        return Objects.equals("ADMIN", role);
     }
 }
 
