@@ -2,7 +2,6 @@ package com.ersms.app.service;
 
 import com.ersms.app.domain.ImageEntity;
 import com.ersms.app.domain.ImageMetadataEntity;
-import com.ersms.app.domain.ImageTagEntity;
 import com.ersms.app.domain.UserEntity;
 import com.ersms.app.exception.RuntimeExceptionWithHttpStatus;
 import com.ersms.app.kafka.ImageUrlProducer;
@@ -14,11 +13,9 @@ import com.ersms.app.repository.ImageRepository;
 import com.ersms.app.repository.ImageTagRepository;
 import com.ersms.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -54,6 +51,13 @@ public class ImageService {
                 .orElseThrow(() -> new RuntimeExceptionWithHttpStatus("Image at given address cannot be found", HttpStatus.NOT_FOUND));
 
         return ImageDto.from(image);
+    }
+
+    public List<ImageDto> getImagesWithTags(List<String> tags) {
+        return imageRepository.findAllByTags(tags)
+                .stream()
+                .map(ImageDto::from)
+                .collect(Collectors.toList());
     }
 
     public void createImage(ImageRequest request) {

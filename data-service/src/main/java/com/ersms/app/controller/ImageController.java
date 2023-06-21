@@ -29,6 +29,12 @@ public class ImageController {
         return imageService.getImage(imageId);
     }
 
+    //Read images with given tags
+    @GetMapping("/tags")
+    public List<ImageDto> getImagesWithTags(@RequestParam(value="tags") List<String> tags)
+    {
+        return imageService.getImagesWithTags(tags);
+    }
 
     //Create an image
     @PostMapping
